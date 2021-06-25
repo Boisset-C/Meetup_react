@@ -3,10 +3,13 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import { BrowserRouter } from "react-router-dom"; //router component
 import App from "./App";
+import { FavoritesContextProvider } from "./store/favorites-context";
 
 ReactDOM.render(
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>,
+  <FavoritesContextProvider>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </FavoritesContextProvider>,
   document.getElementById("root")
 );

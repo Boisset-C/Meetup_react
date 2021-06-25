@@ -1,8 +1,29 @@
 // Good Example of a dynamic/reusable component through the use of props
+import { useContext } from "react";
+
 import Card from "../ui/Card";
 import classes from "./MeetupItem.module.css";
+import FavoritesContext from "../../store/favorites-context";
 
 function MeetupItem(props) {
+  const FavoritesCtx = useContext(FavoritesContext);
+
+  const itemIsFavorite = FavoritesCtx.itemIsFavorite(props.id);
+
+  function toggleFavoriteStatusHandler() {
+    if (itemIsFavorite) {
+      FavoritesCtx.removeFavorite(props.id);
+    } else {
+      FavoritesCtx.addFavorite({
+        id: props.id,
+        title: props.title,
+        description: props.description,
+        image: props.image,
+        address: props.address,
+      });
+    }
+  }
+
   return (
     <li className={classes.item}>
       <Card>
@@ -14,7 +35,9 @@ function MeetupItem(props) {
           <address>{props.address}</address>
           <p>{props.description}</p>
           <div className={classes.actions}>
-            <button to="/favorites">To Favorites</button>
+            <button to="/favorites" onClick={toggleFavoriteStatusHandler}>
+              {itemIsFavorite ? "Remove from Favorites" : "To Favorites"}
+            </button>
           </div>
         </div>
       </Card>
